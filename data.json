@@ -1,0 +1,22 @@
+{
+  "uid": "a1Xd0000001IYXKEAO",
+  "vehicleNumber": "a1Vd0000001IYXKEA4",
+  "vehicleType": "2 wheeler",
+  "ownerName": "Amit Kumar",
+  "ownerContact": "9888888888",
+  "addedOn":"2018-01-01",
+  "insurance": [
+    {
+      "startDate": "2020-01-01",
+      "durationInMonths": 6,
+      "archived": false
+    }
+  ],
+  "documents": [
+    {
+      "type": "pdf",
+      "url": "http://www.google.com",
+      "title": "Vehicle Insurance"
+    }
+  ]
+}

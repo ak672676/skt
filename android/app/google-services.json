@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "375545673510",
+    "project_id": "sktrader-5182a",
+    "storage_bucket": "sktrader-5182a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:375545673510:android:afb162d0e9fd4d2d76f3e7",
+        "android_client_info": {
+          "package_name": "com.example.skt"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "375545673510-34jiqrmuclokr00873nk6smek5pv2p4k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDa-eepmI_K2vFqRO65Wk7y73dmcWCY_qc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "375545673510-34jiqrmuclokr00873nk6smek5pv2p4k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

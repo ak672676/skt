@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Vehicle {
   String? uid;
   String? vehicleNumber;
@@ -24,7 +26,7 @@ class Vehicle {
     vehicleType = json['vehicleType'];
     ownerName = json['ownerName'];
     ownerContact = json['ownerContact'];
-    addedOn = json['addedOn'];
+    addedOn = (json["addedOn"] as Timestamp).toDate();
     if (json['insurance'] != null) {
       insurance = <Insurance>[];
       json['insurance'].forEach((v) {

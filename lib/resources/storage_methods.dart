@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_storage/firebase_storage.dart';
 import "package:flutter/material.dart";
 import 'package:uuid/uuid.dart';
@@ -5,18 +7,22 @@ import 'package:uuid/uuid.dart';
 class StorageMethod {
   final FirebaseStorage _storage = FirebaseStorage.instance;
 
-  // Future<String> uploadImageToStorage(
-  //     String childName, Uint8List file, bool isPost) async {
-  //   Reference ref = _storage.ref().child(childName);
-  //   if (isPost) {
-  //     String id = const Uuid().v1();
-  //     ref = ref.child(id);
-  //   }
+  Future<String> uploadImageToStorage(
+      String fileName, String fileType, File file) async {
+    String res = "Some error occoured";
+    Reference ref = _storage.ref().child("$fileType/$fileName");
 
-  //   UploadTask uploadTask = ref.putData(file);
-  //   TaskSnapshot snap = await uploadTask;
-  //   String downloadUrl = await snap.ref.getDownloadURL();
+    UploadTask uploadTask = ref.putFile(
+      file,
+    );
 
-  //   return downloadUrl;
-  // }
+    try {
+      TaskSnapshot snap = await uploadTask;
+      String downloadUrl = await snap.ref.getDownloadURL();
+      res = downloadUrl;
+    } catch (e) {
+      res = "Error";
+    }
+    return res;
+  }
 }

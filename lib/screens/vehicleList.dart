@@ -22,30 +22,38 @@ class VehicleList extends StatelessWidget {
                   if (!snapshot.hasData) {
                     return const Center(child: CircularProgressIndicator());
                   }
-                  return ListView.builder(
-                      itemCount: (snapshot.data! as dynamic).docs.length,
-                      itemBuilder: (context, index) {
-                        Vehicle v2 = Vehicle.fromJson(
-                            (snapshot.data! as dynamic).docs[index].data());
-                        return InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute<void>(
-                                builder: (BuildContext context) =>
-                                    VehicleDetail(vehicle: v2),
+                  int count = (snapshot.data! as dynamic).docs.length;
+
+                  return count <= 0
+                      ? const Center(
+                          child: Text("No Vehicles",
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.w400)))
+                      : ListView.builder(
+                          itemCount: (snapshot.data! as dynamic).docs.length,
+                          itemBuilder: (context, index) {
+                            Vehicle v2 = Vehicle.fromJson(
+                                (snapshot.data! as dynamic).docs[index].data());
+                            return InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute<void>(
+                                    builder: (BuildContext context) =>
+                                        VehicleDetail(vehicle: v2),
+                                  ),
+                                );
+                              },
+                              child: ListTile(
+                                title: Text(
+                                  "${v2.vehicleNumber}",
+                                  style: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w400),
+                                ),
                               ),
                             );
-                          },
-                          child: ListTile(
-                            title: Text(
-                              "${v2.vehicleNumber}",
-                              style: const TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.w400),
-                            ),
-                          ),
-                        );
-                      });
+                          });
                 }),
           ),
         ],

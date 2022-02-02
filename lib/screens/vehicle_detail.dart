@@ -85,105 +85,108 @@ class _VehicleDetailState extends State<VehicleDetail> {
                 height: 20,
               ),
               Card(
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        const Icon(Icons.directions_car, size: 50),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        Text(
-                          widget.vehicle!.vehicleNumber!,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 28),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          widget.vehicle!.vehicleType!,
-                          style: const TextStyle(fontSize: 18),
-                        ),
-                      ],
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      child: Divider(
-                        thickness: 1,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          const Icon(Icons.directions_car, size: 50),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          Text(
+                            widget.vehicle!.vehicleNumber!,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 28),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            widget.vehicle!.vehicleType!,
+                            style: const TextStyle(fontSize: 18),
+                          ),
+                        ],
                       ),
-                    ),
-                    Row(
-                      children: [
-                        const SizedBox(
-                          width: 20,
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: Divider(
+                          thickness: 1,
                         ),
-                        const Icon(Icons.person, size: 40),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              "Owner",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                                color: Colors.grey,
+                      ),
+                      Row(
+                        children: [
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          const Icon(Icons.person, size: 40),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "Owner",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                  color: Colors.grey,
+                                ),
                               ),
-                            ),
-                            Text(
-                              widget.vehicle!.ownerName!,
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.w400, fontSize: 28),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Row(
-                      children: [
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        const Icon(Icons.phone, size: 40),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              "Contact Number",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                                color: Colors.grey,
+                              Text(
+                                widget.vehicle!.ownerName!,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w400, fontSize: 28),
                               ),
-                            ),
-                            Text(
-                              widget.vehicle!.ownerContact!,
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.w400, fontSize: 26),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                      ],
-                    ),
-                  ],
+                            ],
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        children: [
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          const Icon(Icons.phone, size: 40),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "Contact Number",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              Text(
+                                widget.vehicle!.ownerContact!,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w400, fontSize: 26),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
               Padding(

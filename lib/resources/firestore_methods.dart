@@ -64,4 +64,28 @@ class FirestoreMethods {
 
     return res;
   }
+
+  Future<String> addTax(String vid, String taxAmount, String gainAmount,
+      String description, DateTime startDate, DateTime endDate) async {
+    String res = "Some error occoured";
+
+    String taxId = const Uuid().v1();
+
+    try {
+      await _firestore.collection("taxes").doc(taxId).set({
+        'uid': taxId,
+        'vid': vid,
+        'startDate': startDate,
+        'endDate': endDate,
+        'taxAmount': taxAmount,
+        'gainAmount': gainAmount,
+        'description': description,
+        'onDate': DateTime.now(),
+      });
+      res = "success";
+    } catch (e) {
+      res = e.toString();
+    }
+    return res;
+  }
 }

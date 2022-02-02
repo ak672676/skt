@@ -27,6 +27,16 @@
     "type": "pdf",
     "addedOn": "2018-01-01",
     "url" : "http://www.google.com"
+  },
+  "Tax":{
+    "uid": "a1Xd0000001IYXKEAO",
+    "vid":"kuh ukhuih",
+    "startDate" : "2018-01-01",
+    "endDate" : "2018-01-01",
+    "taxAmount" : "100",
+    "gainAmount" : "100",
+    "description" : "Tax",
+    "onDate":"2018-01-01"
   }
 }
 

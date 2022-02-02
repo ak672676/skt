@@ -149,8 +149,7 @@ class _ButtonSheetState extends State<ButtonSheet> {
                                       _isLoading = false;
                                     });
                                     Navigator.pop(context);
-                                    showSnackBar(
-                                        "Added Document", widget.context);
+                                    showSnackBar("Added Tax", widget.context);
                                   } else {
                                     setState(() {
                                       _isLoading = false;

@@ -13,7 +13,7 @@ class VehicleDocument {
     uid = json['uid'];
     title = json['title'];
     type = json['type'];
-    addedOn = (json["addedOn"] as Timestamp).toDate();
+    addedOn = DateTime.fromMillisecondsSinceEpoch(json["addedOn"]);
     url = json['url'];
   }
 

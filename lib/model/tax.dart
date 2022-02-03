@@ -23,12 +23,15 @@ class Tax {
   Tax.fromJson(Map<String, dynamic> json) {
     uid = json['uid'];
     vid = json['vid'];
-    startDate = (json["startDate"] as Timestamp).toDate();
-    endDate = (json["endDate"] as Timestamp).toDate();
+    startDate = DateTime.fromMillisecondsSinceEpoch(json["startDate"]);
+    endDate = DateTime.fromMillisecondsSinceEpoch(json["endDate"]);
     taxAmount = json['taxAmount'];
     gainAmount = json['gainAmount'];
     description = json['description'];
-    onDate = (json["onDate"] as Timestamp).toDate();
+    // onDate = (json["onDate"] as Timestamp).toDate();
+    // print("Printing datetime: " + json["onDate"].toString());
+    onDate = DateTime.fromMillisecondsSinceEpoch(json["onDate"]);
+    // print("Printing datetime: " + onDate.toString());
   }
 
   Map<String, dynamic> toJson() {

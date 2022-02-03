@@ -10,10 +10,9 @@ class FirestoreMethods {
 
   Future<String> addNewVehicle(Vehicle vehicle) async {
     String res = "Some error occoured";
-    // vehicle.remove("uid");
-    print("addNewVehicle");
+
     String vehicleId = const Uuid().v1();
-    print(vehicle.toJson());
+
     try {
       await _firestore.collection("vehicles").doc(vehicleId).set({
         'uid': vehicleId,
@@ -21,7 +20,7 @@ class FirestoreMethods {
         'vehicleType': vehicle.vehicleType,
         'ownerName': vehicle.ownerName,
         'ownerContact': vehicle.ownerContact,
-        'addedOn': DateTime.now(),
+        'addedOn': DateTime.now().millisecondsSinceEpoch,
       });
       res = "success";
     } catch (e) {
@@ -54,13 +53,12 @@ class FirestoreMethods {
         'title': fileDescription,
         'type': fileType,
         'url': url,
-        'addedOn': DateTime.now(),
+        'addedOn': DateTime.now().millisecondsSinceEpoch,
       });
       res = "success";
     } catch (e) {
       res = "Error";
     }
-    print("addNewVehicle");
 
     return res;
   }
@@ -75,12 +73,12 @@ class FirestoreMethods {
       await _firestore.collection("taxes").doc(taxId).set({
         'uid': taxId,
         'vid': vid,
-        'startDate': startDate,
-        'endDate': endDate,
+        'startDate': startDate.millisecondsSinceEpoch,
+        'endDate': endDate.millisecondsSinceEpoch,
         'taxAmount': taxAmount,
         'gainAmount': gainAmount,
         'description': description,
-        'onDate': DateTime.now(),
+        'onDate': DateTime.now().millisecondsSinceEpoch,
       });
       res = "success";
     } catch (e) {

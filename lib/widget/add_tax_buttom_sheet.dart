@@ -69,6 +69,12 @@ class _AddTaxButtomSheetState extends State<AddTaxButtomSheet> {
         (startDate.year == endDate.year)) {
       err += "Start and End dates are same\n";
     }
+
+    if (startDate.toUtc().millisecondsSinceEpoch >
+        endDate.toUtc().millisecondsSinceEpoch) {
+      err += "End Date before start date\n";
+    }
+
     if (err != "") {
       Navigator.pop(context);
       showSnackBar(err, context);

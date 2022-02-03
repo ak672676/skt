@@ -26,7 +26,7 @@ class Vehicle {
     vehicleType = json['vehicleType'];
     ownerName = json['ownerName'];
     ownerContact = json['ownerContact'];
-    addedOn = (json["addedOn"] as Timestamp).toDate();
+    addedOn = DateTime.fromMillisecondsSinceEpoch(json["addedOn"]);
     if (json['insurance'] != null) {
       insurance = <Insurance>[];
       json['insurance'].forEach((v) {

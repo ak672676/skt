@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import "package:flutter/material.dart";
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:skt/model/tax.dart';
 import 'package:skt/model/vehicle.dart';
 import 'package:skt/model/vehicleDocument.dart';
 import 'package:skt/resources/pdf_api.dart';
@@ -294,7 +295,7 @@ class _VehicleDetailState extends State<VehicleDetail> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         showModalBottomSheet<void>(
                           context: context,
                           builder: (BuildContext context) {
@@ -307,6 +308,57 @@ class _VehicleDetailState extends State<VehicleDetail> {
                     ),
                   ],
                 ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection("taxes")
+                    .where("vid", isEqualTo: widget.vehicle!.uid!)
+                    .orderBy("onDate", descending: true)
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+
+                  return Container(
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: (snapshot.data! as dynamic).docs.length,
+                      itemBuilder: (context, index) {
+                        Tax tax = Tax.fromJson(
+                            (snapshot.data! as dynamic).docs[index].data());
+
+                        return ListTile(
+                          leading: GestureDetector(
+                            onTap: () async {},
+                            child: const Text(
+                              "TAX",
+                              style: TextStyle(
+                                color: Colors.blue,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          title: Text(
+                            "${tax.startDate!.day}-${tax.startDate!.month}-${tax.startDate!.year}    -    ${tax.endDate!.day}-${tax.endDate!.month}-${tax.endDate!.year}",
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          trailing: IconButton(
+                            icon: const Icon(Icons.delete),
+                            onPressed: () {},
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                },
               ),
             ],
           ),

@@ -2,14 +2,22 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import "package:flutter/material.dart";
+import 'package:skt/model/tax.dart';
 import 'package:skt/resources/firestore_methods.dart';
 import 'package:skt/utils/utils.dart';
 
 class AddTaxButtomSheet extends StatefulWidget {
   final BuildContext context;
   final String uid;
-  const AddTaxButtomSheet({Key? key, required this.context, required this.uid})
-      : super(key: key);
+  Tax? tax;
+  bool isEditMode;
+  AddTaxButtomSheet({
+    Key? key,
+    required this.context,
+    required this.uid,
+    this.isEditMode = false,
+    this.tax,
+  }) : super(key: key);
 
   @override
   _AddTaxButtomSheetState createState() => _AddTaxButtomSheetState();
@@ -24,6 +32,17 @@ class _AddTaxButtomSheetState extends State<AddTaxButtomSheet> {
   String date = "";
   DateTime startDate = DateTime.now();
   DateTime endDate = DateTime.now();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    if (widget.isEditMode) {
+      startDate = widget.tax!.startDate!;
+      endDate = widget.tax!.endDate!;
+    }
+  }
 
   _selectDate(BuildContext context, String dateType) async {
     if (dateType == "start") {
@@ -43,7 +62,7 @@ class _AddTaxButtomSheetState extends State<AddTaxButtomSheet> {
         context: context,
         initialDate: endDate,
         firstDate: DateTime(2010),
-        lastDate: DateTime(2025),
+        lastDate: DateTime(2099),
       );
 
       setState(() {
@@ -119,8 +138,8 @@ class _AddTaxButtomSheetState extends State<AddTaxButtomSheet> {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            const Text(
-              "Add Tax",
+            Text(
+              widget.isEditMode ? "Update Tax" : "Add Tax",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
@@ -280,7 +299,8 @@ class _AddTaxButtomSheetState extends State<AddTaxButtomSheet> {
                               onPressed: () {
                                 saveTax(context);
                               },
-                              child: Text("Save"),
+                              child:
+                                  Text(widget.isEditMode ? "Update" : "Save"),
                             )
                           ],
                         ),

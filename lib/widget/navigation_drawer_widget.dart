@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:skt/screens/create_vehicle.dart';
 import 'package:skt/screens/home_screen.dart';
+import 'package:skt/screens/tax_notification.dart';
 import 'package:skt/screens/vehicleList.dart';
 
 class NavigationDrawerWidget extends StatelessWidget {
@@ -61,6 +62,21 @@ class NavigationDrawerWidget extends StatelessWidget {
                 context,
                 MaterialPageRoute<void>(
                   builder: (BuildContext context) => VehicleList(),
+                ),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.apartment, color: Colors.white70),
+            title: const Text(
+              'Tax Notification',
+              style: TextStyle(fontSize: 24.0, color: Colors.white70),
+            ),
+            onTap: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute<void>(
+                  builder: (BuildContext context) => TaxNotification(),
                 ),
               );
             },

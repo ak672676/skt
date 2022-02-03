@@ -295,12 +295,14 @@ class _VehicleDetailState extends State<VehicleDetail> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     ElevatedButton(
-                      onPressed: () async {
-                        showModalBottomSheet<void>(
+                      onPressed: () {
+                        showModalBottomSheet(
                           context: context,
                           builder: (BuildContext context) {
                             return AddTaxButtomSheet(
-                                context: context, uid: widget.vehicle!.uid!);
+                              context: context,
+                              uid: widget.vehicle!.uid!,
+                            );
                           },
                         );
                       },
@@ -350,9 +352,29 @@ class _VehicleDetailState extends State<VehicleDetail> {
                               fontWeight: FontWeight.w400,
                             ),
                           ),
-                          trailing: IconButton(
-                            icon: const Icon(Icons.delete),
-                            onPressed: () {},
+                          trailing: Wrap(
+                            children: [
+                              IconButton(
+                                icon: const Icon(Icons.edit),
+                                onPressed: () {
+                                  showModalBottomSheet(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AddTaxButtomSheet(
+                                        context: context,
+                                        uid: widget.vehicle!.uid!,
+                                        isEditMode: true,
+                                        tax: tax,
+                                      );
+                                    },
+                                  );
+                                },
+                              ),
+                              IconButton(
+                                icon: const Icon(Icons.delete),
+                                onPressed: () {},
+                              ),
+                            ],
                           ),
                         );
                       },

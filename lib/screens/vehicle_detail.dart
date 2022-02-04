@@ -7,6 +7,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:skt/model/tax.dart';
 import 'package:skt/model/vehicle.dart';
 import 'package:skt/model/vehicleDocument.dart';
+import 'package:skt/resources/firestore_methods.dart';
 import 'package:skt/resources/pdf_api.dart';
 import 'package:skt/screens/pdf_viewer_page.dart';
 import 'package:skt/widget/add_tax_buttom_sheet.dart';
@@ -280,7 +281,14 @@ class _VehicleDetailState extends State<VehicleDetail> {
                                 ),
                                 IconButton(
                                   icon: const Icon(Icons.delete),
-                                  onPressed: () {},
+                                  onPressed: () async {
+                                    String res =
+                                        await FirestoreMethods().deleteDocument(
+                                      vd.uid!,
+                                      widget.vehicle!.uid!,
+                                      vd.url!,
+                                    );
+                                  },
                                 ),
                               ],
                             ),
@@ -336,15 +344,13 @@ class _VehicleDetailState extends State<VehicleDetail> {
                             (snapshot.data! as dynamic).docs[index].data());
 
                         return ListTile(
-                          leading: GestureDetector(
-                            onTap: () async {},
-                            child: const Text(
-                              "TAX",
-                              style: TextStyle(
-                                color: Colors.blue,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
+                          leading: Icon(
+                            Icons.circle_rounded,
+                            // color: tax.isActive! ? Colors.green : Colors.red,
+                            color: DateTime.now().millisecondsSinceEpoch <
+                                    tax.endDate!.millisecondsSinceEpoch
+                                ? Colors.green
+                                : Colors.red,
                           ),
                           title: Text(
                             "${tax.startDate!.day}-${tax.startDate!.month}-${tax.startDate!.year}    -    ${tax.endDate!.day}-${tax.endDate!.month}-${tax.endDate!.year}",

@@ -1,12 +1,14 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:skt/model/vehicle.dart';
 import 'package:skt/resources/storage_methods.dart';
 import 'package:uuid/uuid.dart';
 
 class FirestoreMethods {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseStorage _storage = FirebaseStorage.instance;
 
   Future<String> addNewVehicle(Vehicle vehicle) async {
     String res = "Some error occoured";
@@ -116,6 +118,34 @@ class FirestoreMethods {
         'description': description,
         'isActive': isActive,
       });
+      res = "success";
+    } catch (e) {
+      res = e.toString();
+    }
+    return res;
+  }
+
+  Future<String> deleteDocument(
+    String did,
+    String vid,
+    String url,
+  ) async {
+    String res = "Some error occoured";
+    try {
+      String fileName = url.replaceAll("/o/", "*");
+      fileName = fileName.replaceAll("?", "*");
+      fileName = fileName.split("*")[1];
+      print("Filename -->" + fileName);
+
+      await _storage.refFromURL(url).delete();
+
+      await _firestore
+          .collection("vehicles")
+          .doc(vid)
+          .collection("documents")
+          .doc(did)
+          .delete();
+
       res = "success";
     } catch (e) {
       res = e.toString();

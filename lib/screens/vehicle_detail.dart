@@ -10,6 +10,7 @@ import 'package:skt/model/vehicleDocument.dart';
 import 'package:skt/resources/firestore_methods.dart';
 import 'package:skt/resources/pdf_api.dart';
 import 'package:skt/screens/pdf_viewer_page.dart';
+import 'package:skt/utils/utils.dart';
 import 'package:skt/widget/add_tax_buttom_sheet.dart';
 import 'package:skt/widget/buttom_sheet.dart';
 
@@ -191,11 +192,20 @@ class _VehicleDetailState extends State<VehicleDetail> {
                   ),
                 ),
               ),
+              const SizedBox(
+                height: 20,
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    const Text(
+                      "Documents",
+                      style:
+                          TextStyle(fontWeight: FontWeight.w600, fontSize: 24),
+                    ),
                     ElevatedButton(
                       onPressed: () {
                         showModalBottomSheet<void>(
@@ -223,7 +233,12 @@ class _VehicleDetailState extends State<VehicleDetail> {
                       child: CircularProgressIndicator(),
                     );
                   }
-
+                  if ((snapshot.data! as dynamic).docs.length == 0) {
+                    return Container(
+                      margin: EdgeInsets.only(top: 10.0),
+                      child: Text("No Documents"),
+                    );
+                  }
                   return Container(
                     child: ListView.builder(
                         shrinkWrap: true,
@@ -288,6 +303,13 @@ class _VehicleDetailState extends State<VehicleDetail> {
                                       widget.vehicle!.uid!,
                                       vd.url!,
                                     );
+
+                                    if (res == "success") {
+                                      showSnackBar("Document Deleted", context);
+                                    } else {
+                                      showSnackBar(
+                                          "Error Deleting Document", context);
+                                    }
                                   },
                                 ),
                               ],
@@ -297,11 +319,20 @@ class _VehicleDetailState extends State<VehicleDetail> {
                   );
                 },
               ),
+              const SizedBox(
+                height: 20,
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    const Text(
+                      "Tax Details",
+                      style:
+                          TextStyle(fontWeight: FontWeight.w600, fontSize: 24),
+                    ),
                     ElevatedButton(
                       onPressed: () {
                         showModalBottomSheet(
@@ -319,7 +350,7 @@ class _VehicleDetailState extends State<VehicleDetail> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               StreamBuilder(
@@ -334,7 +365,12 @@ class _VehicleDetailState extends State<VehicleDetail> {
                       child: CircularProgressIndicator(),
                     );
                   }
-
+                  if ((snapshot.data! as dynamic).docs.length == 0) {
+                    return Container(
+                      margin: EdgeInsets.only(top: 10.0),
+                      child: Text("No previous tax details"),
+                    );
+                  }
                   return Container(
                     child: ListView.builder(
                       shrinkWrap: true,
@@ -378,7 +414,19 @@ class _VehicleDetailState extends State<VehicleDetail> {
                               ),
                               IconButton(
                                 icon: const Icon(Icons.delete),
-                                onPressed: () {},
+                                onPressed: () async {
+                                  String res =
+                                      await FirestoreMethods().deleteTax(
+                                    tax.uid!,
+                                  );
+
+                                  if (res == "success") {
+                                    showSnackBar("Document Deleted", context);
+                                  } else {
+                                    showSnackBar(
+                                        "Error Deleting Document", context);
+                                  }
+                                },
                               ),
                             ],
                           ),

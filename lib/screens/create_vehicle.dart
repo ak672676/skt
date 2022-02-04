@@ -17,25 +17,8 @@ class _CreateVehicleState extends State<CreateVehicle> {
   bool _isLoading = false;
   Vehicle vehicle = new Vehicle();
 
-  //Date Picker
-  String date = "";
-  DateTime selectedDate = DateTime.now();
-  _selectDate(BuildContext context) async {
-    final DateTime? selected = await showDatePicker(
-      context: context,
-      initialDate: selectedDate,
-      firstDate: DateTime(2010),
-      lastDate: DateTime(2025),
-    );
-    if (selected != null && selected != selectedDate)
-      setState(() {
-        selectedDate = selected;
-      });
-  }
-
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     vehicle.vehicleType = '2 wheeler';
   }
@@ -45,11 +28,8 @@ class _CreateVehicleState extends State<CreateVehicle> {
     if (!isValid) {
       return;
     }
-    // print(vehicle.toJson());
-    // FirestoreMethods().addNewVehicle(vehicle);
+
     saveVehicle(vehicle);
-    // _formKey.currentState!.reset();
-    // _formKey.currentState!.save();
   }
 
   void saveVehicle(Vehicle vehicle) async {
@@ -95,7 +75,7 @@ class _CreateVehicleState extends State<CreateVehicle> {
                   child: ListView(
                     children: [
                       TextFormField(
-                        keyboardType: TextInputType.emailAddress,
+                        keyboardType: TextInputType.text,
                         decoration: const InputDecoration(
                             hintText: 'Vehicle Number',
                             labelText: 'Vehicle Number'),
@@ -113,10 +93,6 @@ class _CreateVehicleState extends State<CreateVehicle> {
                           hint: Text('Select a vehicle '),
                           underline: SizedBox(),
                           value: vehicle.vehicleType,
-                          // icon: Icon(
-                          //   Icons.,
-                          //   color: Colors.black,
-                          // ),
                           items: <String>[
                             '2 wheeler',
                             '3 wheeler',
@@ -129,7 +105,6 @@ class _CreateVehicleState extends State<CreateVehicle> {
                               child: Text(value),
                             );
                           }).toList(),
-
                           onChanged: (String? newValue) {
                             if (newValue != null) {
                               setState(() {
@@ -141,7 +116,9 @@ class _CreateVehicleState extends State<CreateVehicle> {
                       ),
                       TextFormField(
                         decoration: const InputDecoration(
-                            hintText: 'Owner', labelText: 'Owner name'),
+                          hintText: 'Owner',
+                          labelText: 'Owner name',
+                        ),
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'Enter owner name';
@@ -163,32 +140,6 @@ class _CreateVehicleState extends State<CreateVehicle> {
                         },
                         onChanged: (value) => vehicle.ownerContact = value,
                       ),
-                      // Row(
-                      //   children: [
-                      //     Container(
-                      //       child: ElevatedButton(
-                      //         child: const Text(
-                      //           'Start Date',
-                      //           style: TextStyle(color: Colors.white),
-                      //         ),
-                      //         onPressed: () {
-                      //           _selectDate(context);
-                      //         },
-                      //       ),
-                      //       margin: const EdgeInsets.only(top: 20.0),
-                      //     ),
-                      //     Container(
-                      //       child: ElevatedButton(
-                      //         child: const Text(
-                      //           'Start Date',
-                      //           style: TextStyle(color: Colors.white),
-                      //         ),
-                      //         onPressed: submit,
-                      //       ),
-                      //       margin: const EdgeInsets.only(top: 20.0),
-                      //     ),
-                      //   ],
-                      // ),
                       Container(
                         width: screenSize.width,
                         child: ElevatedButton(

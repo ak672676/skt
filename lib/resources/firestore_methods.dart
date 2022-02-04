@@ -132,11 +132,6 @@ class FirestoreMethods {
   ) async {
     String res = "Some error occoured";
     try {
-      String fileName = url.replaceAll("/o/", "*");
-      fileName = fileName.replaceAll("?", "*");
-      fileName = fileName.split("*")[1];
-      print("Filename -->" + fileName);
-
       await _storage.refFromURL(url).delete();
 
       await _firestore
@@ -146,6 +141,19 @@ class FirestoreMethods {
           .doc(did)
           .delete();
 
+      res = "success";
+    } catch (e) {
+      res = e.toString();
+    }
+    return res;
+  }
+
+  Future<String> deleteTax(
+    String tid,
+  ) async {
+    String res = "Some error occoured";
+    try {
+      await _firestore.collection("taxes").doc(tid).delete();
       res = "success";
     } catch (e) {
       res = e.toString();

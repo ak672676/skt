@@ -37,7 +37,7 @@ class NavigationDrawerWidget extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.apartment, color: Colors.white70),
+            leading: const Icon(Icons.new_label, color: Colors.white70),
             title: const Text(
               'New Vehicle',
               style: TextStyle(fontSize: 24.0, color: Colors.white70),
@@ -52,7 +52,7 @@ class NavigationDrawerWidget extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.apartment, color: Colors.white70),
+            leading: const Icon(Icons.directions_bike, color: Colors.white70),
             title: const Text(
               'Vehicles',
               style: TextStyle(fontSize: 24.0, color: Colors.white70),
@@ -67,7 +67,7 @@ class NavigationDrawerWidget extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.apartment, color: Colors.white70),
+            leading: const Icon(Icons.notifications, color: Colors.white70),
             title: const Text(
               'Tax Notification',
               style: TextStyle(fontSize: 24.0, color: Colors.white70),

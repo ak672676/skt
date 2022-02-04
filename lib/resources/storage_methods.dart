@@ -45,3 +45,29 @@ class StorageMethod {
     await ref.writeToFile(file);
   }
 }
+
+// Future<void> downloadFile(StorageReference ref) async {
+//   final String url = await ref.getDownloadURL();
+//   final http.Response downloadData = await http.get(url);
+//   final Directory systemTempDir = Directory.systemTemp;
+//   final File tempFile = File('${systemTempDir.path}/tmp.jpg');
+//   if (tempFile.existsSync()) {
+//     await tempFile.delete();
+//   }
+//   await tempFile.create();
+//   final StorageFileDownloadTask task = ref.writeToFile(tempFile);
+//   final int byteCount = (await task.future).totalByteCount;
+//   var bodyBytes = downloadData.bodyBytes;
+//   final String name = await ref.getName();
+//   final String path = await ref.getPath();
+//   print(url);
+//   _scaffoldKey.currentState.showSnackBar(
+//     SnackBar(
+//       backgroundColor: Colors.white,
+//       content: Image.memory(
+//         bodyBytes,
+//         fit: BoxFit.fill,
+//       ),
+//     ),
+//   );
+// }

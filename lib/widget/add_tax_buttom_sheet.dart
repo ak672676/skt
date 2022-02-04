@@ -26,13 +26,17 @@ class AddTaxButtomSheet extends StatefulWidget {
 class _AddTaxButtomSheetState extends State<AddTaxButtomSheet> {
   bool _isLoading = false;
 
-  String? taxAmount;
-  String? gainAmount;
-  String? description;
+  // String? taxAmount;
+  // String? gainAmount;
+  // String? description;
   String date = "";
   DateTime startDate = DateTime.now();
   DateTime endDate = DateTime.now();
 
+  final TextEditingController taxAmount = TextEditingController();
+  final TextEditingController gainAmount = TextEditingController();
+  final TextEditingController description = TextEditingController();
+  bool isActive = true;
   @override
   void initState() {
     // TODO: implement initState
@@ -41,7 +45,21 @@ class _AddTaxButtomSheetState extends State<AddTaxButtomSheet> {
     if (widget.isEditMode) {
       startDate = widget.tax!.startDate!;
       endDate = widget.tax!.endDate!;
+      taxAmount.text = widget.tax!.taxAmount!.toString();
+      gainAmount.text = widget.tax!.gainAmount!.toString();
+      description.text = widget.tax!.description!;
+      isActive = widget.tax!.isActive!;
     }
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+
+    taxAmount.dispose();
+    gainAmount.dispose();
+    description.dispose();
   }
 
   _selectDate(BuildContext context, String dateType) async {
@@ -74,14 +92,14 @@ class _AddTaxButtomSheetState extends State<AddTaxButtomSheet> {
   saveTax(BuildContext context) async {
     String err = "";
 
-    if (taxAmount == null || taxAmount == "") {
+    if (taxAmount.text == null || taxAmount.text == "") {
       err += "Tax amount is required\n";
     }
-    if (gainAmount == null || gainAmount == "") {
-      gainAmount = "0";
+    if (gainAmount.text == null || gainAmount.text == "") {
+      gainAmount.text = "0";
     }
-    if (description == null) {
-      description = "";
+    if (description.text == null) {
+      description.text = "";
     }
     if ((startDate.day == endDate.day) &&
         (startDate.month == endDate.month) &&
@@ -107,18 +125,83 @@ class _AddTaxButtomSheetState extends State<AddTaxButtomSheet> {
     try {
       String res = await FirestoreMethods().addTax(
         widget.uid,
-        taxAmount!,
-        gainAmount!,
-        description!,
+        taxAmount.text,
+        gainAmount.text,
+        description.text,
         startDate,
         endDate,
+        isActive,
       );
       if (res == "success") {
         setState(() {
           _isLoading = false;
         });
         Navigator.pop(context);
-        showSnackBar("Added Document", widget.context);
+        showSnackBar("Tax added", widget.context);
+      } else {
+        setState(() {
+          _isLoading = false;
+        });
+        showSnackBar(res, context);
+      }
+    } catch (e) {
+      showSnackBar(err.toString(), context);
+    }
+  }
+
+  updateTax(BuildContext context) async {
+    print("updateTax");
+    String err = "";
+
+    print(widget.tax!.uid);
+
+    if (taxAmount.text == null || taxAmount.text == "") {
+      err += "Tax amount is required\n";
+    }
+    if (gainAmount.text == null || gainAmount.text == "") {
+      gainAmount.text = "0";
+    }
+    if (description.text == null) {
+      description.text = "";
+    }
+    if ((startDate.day == endDate.day) &&
+        (startDate.month == endDate.month) &&
+        (startDate.year == endDate.year)) {
+      err += "Start and End dates are same\n";
+    }
+
+    if (startDate.toUtc().millisecondsSinceEpoch >
+        endDate.toUtc().millisecondsSinceEpoch) {
+      err += "End Date before start date\n";
+    }
+
+    if (err != "") {
+      Navigator.pop(context);
+      showSnackBar(err, context);
+      return;
+    }
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      String res = await FirestoreMethods().updateTax(
+        widget.tax!.uid!,
+        widget.uid,
+        taxAmount.text,
+        gainAmount.text,
+        description.text,
+        startDate,
+        endDate,
+        isActive,
+      );
+      if (res == "success") {
+        setState(() {
+          _isLoading = false;
+        });
+        Navigator.pop(context);
+        showSnackBar("Tax updated", widget.context);
       } else {
         setState(() {
           _isLoading = false;
@@ -158,11 +241,13 @@ class _AddTaxButtomSheetState extends State<AddTaxButtomSheet> {
                                 decoration: const InputDecoration(
                                   labelText: "Tax Amount",
                                 ),
-                                onChanged: (value) {
-                                  setState(() {
-                                    taxAmount = value;
-                                  });
-                                },
+                                // onChanged: (value) {
+                                //   setState(() {
+                                //     taxAmount = value;
+                                //   });
+                                // },
+
+                                controller: taxAmount,
                               ),
                             ),
                             const SizedBox(width: 15),
@@ -172,11 +257,12 @@ class _AddTaxButtomSheetState extends State<AddTaxButtomSheet> {
                                 decoration: const InputDecoration(
                                   labelText: "Gain Amount",
                                 ),
-                                onChanged: (value) {
-                                  setState(() {
-                                    gainAmount = value;
-                                  });
-                                },
+                                // onChanged: (value) {
+                                //   setState(() {
+                                //     gainAmount = value;
+                                //   });
+                                // },
+                                controller: gainAmount,
                               ),
                             ),
                           ],
@@ -188,11 +274,12 @@ class _AddTaxButtomSheetState extends State<AddTaxButtomSheet> {
                                 decoration: const InputDecoration(
                                   labelText: "Description",
                                 ),
-                                onChanged: (value) {
-                                  setState(() {
-                                    description = value;
-                                  });
-                                },
+                                // onChanged: (value) {
+                                //   setState(() {
+                                //     description = value;
+                                //   });
+                                // },
+                                controller: description,
                               ),
                             ),
                           ],
@@ -295,9 +382,20 @@ class _AddTaxButtomSheetState extends State<AddTaxButtomSheet> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
+                            Switch(
+                                value: isActive,
+                                onChanged: (value) {
+                                  setState(() {
+                                    isActive = value;
+                                  });
+                                }),
                             ElevatedButton(
                               onPressed: () {
-                                saveTax(context);
+                                if (widget.isEditMode) {
+                                  updateTax(context);
+                                } else {
+                                  saveTax(context);
+                                }
                               },
                               child:
                                   Text(widget.isEditMode ? "Update" : "Save"),

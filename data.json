@@ -36,7 +36,8 @@
     "taxAmount" : "100",
     "gainAmount" : "100",
     "description" : "Tax",
-    "onDate":"2018-01-01"
+    "onDate":"2018-01-01",
+    "isActive":true
   }
 }
 

@@ -63,8 +63,14 @@ class FirestoreMethods {
     return res;
   }
 
-  Future<String> addTax(String vid, String taxAmount, String gainAmount,
-      String description, DateTime startDate, DateTime endDate) async {
+  Future<String> addTax(
+      String vid,
+      String taxAmount,
+      String gainAmount,
+      String description,
+      DateTime startDate,
+      DateTime endDate,
+      bool isActive) async {
     String res = "Some error occoured";
 
     String taxId = const Uuid().v1();
@@ -79,6 +85,36 @@ class FirestoreMethods {
         'gainAmount': gainAmount,
         'description': description,
         'onDate': DateTime.now().millisecondsSinceEpoch,
+        'isActive': isActive,
+      });
+      res = "success";
+    } catch (e) {
+      res = e.toString();
+    }
+    return res;
+  }
+
+  Future<String> updateTax(
+      String uid,
+      String vid,
+      String taxAmount,
+      String gainAmount,
+      String description,
+      DateTime startDate,
+      DateTime endDate,
+      bool isActive) async {
+    String res = "Some error occoured";
+
+    try {
+      await _firestore.collection("taxes").doc(uid).update({
+        'uid': uid,
+        'vid': vid,
+        'startDate': startDate.millisecondsSinceEpoch,
+        'endDate': endDate.millisecondsSinceEpoch,
+        'taxAmount': taxAmount,
+        'gainAmount': gainAmount,
+        'description': description,
+        'isActive': isActive,
       });
       res = "success";
     } catch (e) {

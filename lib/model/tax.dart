@@ -9,6 +9,7 @@ class Tax {
   String? gainAmount;
   String? description;
   DateTime? onDate;
+  bool? isActive;
 
   Tax(
       {this.uid,
@@ -18,7 +19,8 @@ class Tax {
       this.taxAmount,
       this.gainAmount,
       this.description,
-      this.onDate});
+      this.onDate,
+      this.isActive});
 
   Tax.fromJson(Map<String, dynamic> json) {
     uid = json['uid'];
@@ -31,6 +33,7 @@ class Tax {
     // onDate = (json["onDate"] as Timestamp).toDate();
     // print("Printing datetime: " + json["onDate"].toString());
     onDate = DateTime.fromMillisecondsSinceEpoch(json["onDate"]);
+    isActive = json['isActive'];
     // print("Printing datetime: " + onDate.toString());
   }
 
@@ -44,6 +47,7 @@ class Tax {
     data['gainAmount'] = this.gainAmount;
     data['description'] = this.description;
     data['onDate'] = this.onDate;
+    data['isActive'] = this.isActive;
     return data;
   }
 }

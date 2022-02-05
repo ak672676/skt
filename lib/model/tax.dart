@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class Tax {
   String? uid;
   String? vid;
+  String? vehicleNumber;
   DateTime? startDate;
   DateTime? endDate;
   String? taxAmount;
@@ -14,6 +15,7 @@ class Tax {
   Tax(
       {this.uid,
       this.vid,
+      this.vehicleNumber,
       this.startDate,
       this.endDate,
       this.taxAmount,
@@ -25,6 +27,7 @@ class Tax {
   Tax.fromJson(Map<String, dynamic> json) {
     uid = json['uid'];
     vid = json['vid'];
+    vehicleNumber = json['vehicleNumber'];
     startDate = DateTime.fromMillisecondsSinceEpoch(json["startDate"]);
     endDate = DateTime.fromMillisecondsSinceEpoch(json["endDate"]);
     taxAmount = json['taxAmount'];
@@ -41,6 +44,7 @@ class Tax {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['uid'] = this.uid;
     data['vid'] = this.vid;
+    data['vehicleNumber'] = this.vehicleNumber;
     data['startDate'] = this.startDate;
     data['endDate'] = this.endDate;
     data['taxAmount'] = this.taxAmount;

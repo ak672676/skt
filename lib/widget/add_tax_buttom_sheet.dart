@@ -9,12 +9,14 @@ import 'package:skt/utils/utils.dart';
 class AddTaxButtomSheet extends StatefulWidget {
   final BuildContext context;
   final String uid;
+  final String vehicleNumber;
   Tax? tax;
   bool isEditMode;
   AddTaxButtomSheet({
     Key? key,
     required this.context,
     required this.uid,
+    required this.vehicleNumber,
     this.isEditMode = false,
     this.tax,
   }) : super(key: key);
@@ -125,6 +127,7 @@ class _AddTaxButtomSheetState extends State<AddTaxButtomSheet> {
     try {
       String res = await FirestoreMethods().addTax(
         widget.uid,
+        widget.vehicleNumber,
         taxAmount.text,
         gainAmount.text,
         description.text,

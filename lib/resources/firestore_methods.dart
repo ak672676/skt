@@ -67,6 +67,7 @@ class FirestoreMethods {
 
   Future<String> addTax(
       String vid,
+      String vehicleNumber,
       String taxAmount,
       String gainAmount,
       String description,
@@ -81,6 +82,7 @@ class FirestoreMethods {
       await _firestore.collection("taxes").doc(taxId).set({
         'uid': taxId,
         'vid': vid,
+        'vehicleNumber': vehicleNumber,
         'startDate': startDate.millisecondsSinceEpoch,
         'endDate': endDate.millisecondsSinceEpoch,
         'taxAmount': taxAmount,

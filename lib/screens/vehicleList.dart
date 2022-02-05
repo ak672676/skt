@@ -11,7 +11,22 @@ class VehicleList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Vehicle List"),
+        title: TextFormField(
+          onChanged: (value) {
+            // input = value;
+          },
+          decoration: const InputDecoration(
+            hintText: "Search",
+            border: InputBorder.none,
+          ),
+          cursorColor: Colors.grey,
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {},
+          ),
+        ],
       ),
       body: Column(
         children: <Widget>[
@@ -40,7 +55,7 @@ class VehicleList extends StatelessWidget {
                                   context,
                                   MaterialPageRoute<void>(
                                     builder: (BuildContext context) =>
-                                        VehicleDetail(vehicle: v2),
+                                        VehicleDetail(vehicleNumber: v2.uid),
                                   ),
                                 );
                               },

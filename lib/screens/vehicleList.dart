@@ -4,16 +4,24 @@ import 'package:skt/model/vehicle.dart';
 import 'package:skt/screens/vehicle_detail.dart';
 import 'package:skt/widget/navigation_drawer_widget.dart';
 
-class VehicleList extends StatelessWidget {
+class VehicleList extends StatefulWidget {
   const VehicleList({Key? key}) : super(key: key);
 
+  @override
+  State<VehicleList> createState() => _VehicleListState();
+}
+
+class _VehicleListState extends State<VehicleList> {
+  String searchText = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: TextFormField(
           onChanged: (value) {
-            // input = value;
+            setState(() {
+              searchText = value;
+            });
           },
           decoration: const InputDecoration(
             hintText: "Search",
@@ -21,18 +29,19 @@ class VehicleList extends StatelessWidget {
           ),
           cursorColor: Colors.grey,
         ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.search),
-            onPressed: () {},
-          ),
-        ],
       ),
       body: Column(
         children: <Widget>[
           Expanded(
             child: FutureBuilder(
-                future: FirebaseFirestore.instance.collection("vehicles").get(),
+                future: searchText != ""
+                    ? FirebaseFirestore.instance
+                        .collection("vehicles")
+                        .where("vehicleNumber",
+                            isGreaterThanOrEqualTo: searchText)
+                        .limit(5)
+                        .get()
+                    : FirebaseFirestore.instance.collection("vehicles").get(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return const Center(child: CircularProgressIndicator());

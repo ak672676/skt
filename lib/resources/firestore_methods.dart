@@ -162,4 +162,83 @@ class FirestoreMethods {
     }
     return res;
   }
+
+  Future<String> addInsurance(
+      String vid,
+      String vehicleNumber,
+      String insuranceAmount,
+      String gainAmount,
+      String valuation,
+      String description,
+      DateTime startDate,
+      DateTime endDate,
+      bool isActive) async {
+    String res = "Some error occoured";
+
+    String taxId = const Uuid().v1();
+
+    try {
+      await _firestore.collection("insurances").doc(taxId).set({
+        'uid': taxId,
+        'vid': vid,
+        'vehicleNumber': vehicleNumber,
+        'startDate': startDate.millisecondsSinceEpoch,
+        'endDate': endDate.millisecondsSinceEpoch,
+        'insuranceAmount': insuranceAmount,
+        'valuation': valuation,
+        'gainAmount': gainAmount,
+        'description': description,
+        'onDate': DateTime.now().millisecondsSinceEpoch,
+        'isActive': isActive,
+      });
+      res = "success";
+    } catch (e) {
+      res = e.toString();
+    }
+    return res;
+  }
+
+  Future<String> updateInsurance(
+      String uid,
+      String vid,
+      String insuranceAmount,
+      String gainAmount,
+      String valuation,
+      String description,
+      DateTime startDate,
+      DateTime endDate,
+      bool isActive) async {
+    String res = "Some error occoured";
+
+    try {
+      await _firestore.collection("insurances").doc(uid).update({
+        'uid': uid,
+        'vid': vid,
+        'startDate': startDate.millisecondsSinceEpoch,
+        'endDate': endDate.millisecondsSinceEpoch,
+        'valuation': valuation,
+        'insuranceAmount': insuranceAmount,
+        'gainAmount': gainAmount,
+        'description': description,
+        'isActive': isActive,
+      });
+      res = "success";
+    } catch (e) {
+      res = e.toString();
+    }
+    return res;
+  }
+
+  Future<String> deleteInsurance(
+    String iid,
+  ) async {
+    String res = "Some error occoured";
+    try {
+      await _firestore.collection("insurances").doc(iid).delete();
+      res = "success";
+    } catch (e) {
+      res = e.toString();
+    }
+    return res;
+  }
 }

@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import "package:flutter/material.dart";
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:skt/model/insurance.dart';
 import 'package:skt/model/tax.dart';
 import 'package:skt/model/vehicle.dart';
 import 'package:skt/model/vehicleDocument.dart';
@@ -11,8 +12,10 @@ import 'package:skt/resources/firestore_methods.dart';
 import 'package:skt/resources/pdf_api.dart';
 import 'package:skt/screens/pdf_viewer_page.dart';
 import 'package:skt/utils/utils.dart';
+import 'package:skt/widget/add_insurance_buttom_sheet.dart';
 import 'package:skt/widget/add_tax_buttom_sheet.dart';
 import 'package:skt/widget/buttom_sheet.dart';
+import 'package:skt/widget/tax_detail.dart';
 
 class VehicleDetail extends StatefulWidget {
   final String? vehicleNumber;
@@ -459,286 +462,7 @@ class _VehicleDetailState extends State<VehicleDetail> {
                                       builder: (BuildContext context) {
                                         return Padding(
                                           padding: const EdgeInsets.all(8.0),
-                                          child: Container(
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.40,
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    Card(
-                                                      elevation: 4,
-                                                      margin: EdgeInsets.all(8),
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(16),
-                                                      ),
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(8.0),
-                                                        child: Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            const Text(
-                                                              "Duration",
-                                                              style: TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                  fontSize: 20),
-                                                            ),
-                                                            const SizedBox(
-                                                              height: 5,
-                                                            ),
-                                                            Text(
-                                                              "${tax.startDate!.day}-${tax.startDate!.month}-${tax.startDate!.year}    -    ${tax.endDate!.day}-${tax.endDate!.month}-${tax.endDate!.year}",
-                                                              style:
-                                                                  const TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                                fontSize: 16,
-                                                                color:
-                                                                    Colors.grey,
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Card(
-                                                      elevation: 4,
-                                                      margin: EdgeInsets.all(8),
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(16),
-                                                      ),
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(8.0),
-                                                        child: Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Text(
-                                                              "Status",
-                                                              style: TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                  fontSize: 20),
-                                                            ),
-                                                            SizedBox(
-                                                              height: 5,
-                                                            ),
-                                                            Row(
-                                                              children: [
-                                                                Icon(
-                                                                  Icons
-                                                                      .circle_rounded,
-                                                                  // color: tax.isActive! ? Colors.green : Colors.red,
-                                                                  color: DateTime.now()
-                                                                              .millisecondsSinceEpoch <
-                                                                          tax.endDate!
-                                                                              .millisecondsSinceEpoch
-                                                                      ? Colors
-                                                                          .green
-                                                                      : Colors
-                                                                          .red,
-                                                                  size: 18,
-                                                                ),
-                                                                SizedBox(
-                                                                  width: 2,
-                                                                ),
-                                                                Text(
-                                                                  DateTime.now()
-                                                                              .millisecondsSinceEpoch <
-                                                                          tax.endDate!
-                                                                              .millisecondsSinceEpoch
-                                                                      ? "Active"
-                                                                      : "Expired",
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w600,
-                                                                    fontSize:
-                                                                        16,
-                                                                    color: Colors
-                                                                        .grey,
-                                                                  ),
-                                                                )
-                                                              ],
-                                                            )
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    Card(
-                                                      elevation: 4,
-                                                      margin: EdgeInsets.all(8),
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(16),
-                                                      ),
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(8.0),
-                                                        child: Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            const Text(
-                                                              "Tax Amount",
-                                                              style: TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                  fontSize: 20),
-                                                            ),
-                                                            const SizedBox(
-                                                              height: 5,
-                                                            ),
-                                                            Text(
-                                                              tax.taxAmount
-                                                                  .toString(),
-                                                              style:
-                                                                  const TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                                fontSize: 16,
-                                                                color:
-                                                                    Colors.grey,
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Card(
-                                                      elevation: 4,
-                                                      margin:
-                                                          const EdgeInsets.all(
-                                                              8),
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(16),
-                                                      ),
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(8.0),
-                                                        child: Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            const Text(
-                                                              "Gain Amount",
-                                                              style: TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                  fontSize: 20),
-                                                            ),
-                                                            const SizedBox(
-                                                              height: 5,
-                                                            ),
-                                                            Text(
-                                                              tax.gainAmount
-                                                                  .toString(),
-                                                              style:
-                                                                  const TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                                fontSize: 16,
-                                                                color:
-                                                                    Colors.grey,
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    Card(
-                                                      elevation: 4,
-                                                      margin: EdgeInsets.all(8),
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(16),
-                                                      ),
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(8.0),
-                                                        child: Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            const Text(
-                                                              "Remarks",
-                                                              style: TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                  fontSize: 20),
-                                                            ),
-                                                            const SizedBox(
-                                                              height: 5,
-                                                            ),
-                                                            Text(
-                                                              tax.description!,
-                                                              style:
-                                                                  const TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                                fontSize: 16,
-                                                                color:
-                                                                    Colors.grey,
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ),
+                                          child: TaxDetail(tax: tax),
                                         );
                                       },
                                     );
@@ -784,6 +508,147 @@ class _VehicleDetailState extends State<VehicleDetail> {
                                         } else {
                                           showSnackBar(
                                               "Error Deleting Document",
+                                              context);
+                                        }
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Text(
+                            "Insurance",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600, fontSize: 24),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              showModalBottomSheet(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AddInsuranceButtomSheet(
+                                    context: context,
+                                    uid: vehicle!.uid!,
+                                    vehicleNumber: vehicle!.vehicleNumber!,
+                                  );
+                                },
+                              );
+                            },
+                            child: const Text("Add Insurance"),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    StreamBuilder(
+                      stream: FirebaseFirestore.instance
+                          .collection("insurances")
+                          .where("vid", isEqualTo: vehicle!.uid!)
+                          .orderBy("onDate", descending: true)
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                        if ((snapshot.data! as dynamic).docs.length == 0) {
+                          return Container(
+                            margin: EdgeInsets.only(top: 10.0),
+                            child: Text("No previous insurance details"),
+                          );
+                        }
+                        return Container(
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: (snapshot.data! as dynamic).docs.length,
+                            itemBuilder: (context, index) {
+                              Insurance insurance = Insurance.fromJson(
+                                  (snapshot.data! as dynamic)
+                                      .docs[index]
+                                      .data());
+
+                              return ListTile(
+                                leading: Icon(
+                                  Icons.circle_rounded,
+                                  // color: tax.isActive! ? Colors.green : Colors.red,
+                                  color: DateTime.now().millisecondsSinceEpoch <
+                                          insurance
+                                              .endDate!.millisecondsSinceEpoch
+                                      ? Colors.green
+                                      : Colors.red,
+                                ),
+                                title: GestureDetector(
+                                  onTap: () {
+                                    // showModalBottomSheet(
+                                    //   context: context,
+                                    //   builder: (BuildContext context) {
+                                    //     return Padding(
+                                    //       padding: const EdgeInsets.all(8.0),
+                                    //       child: TaxDetail(tax: tax),
+                                    //     );
+                                    //   },
+                                    // );
+                                  },
+                                  child: Text(
+                                    "${insurance.startDate!.day}-${insurance.startDate!.month}-${insurance.startDate!.year}    -    ${insurance.endDate!.day}-${insurance.endDate!.month}-${insurance.endDate!.year}",
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ),
+                                trailing: Wrap(
+                                  children: [
+                                    IconButton(
+                                      icon: const Icon(Icons.edit),
+                                      onPressed: () {
+                                        showModalBottomSheet(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            print(insurance.valuation);
+
+                                            return AddInsuranceButtomSheet(
+                                              context: context,
+                                              uid: vehicle!.uid!,
+                                              vehicleNumber:
+                                                  vehicle!.vehicleNumber!,
+                                              isEditMode: true,
+                                              insurance: insurance,
+                                            );
+                                          },
+                                        );
+                                      },
+                                    ),
+                                    IconButton(
+                                      icon: const Icon(Icons.delete),
+                                      onPressed: () async {
+                                        String res = await FirestoreMethods()
+                                            .deleteInsurance(
+                                          insurance.uid!,
+                                        );
+
+                                        if (res == "success") {
+                                          showSnackBar(
+                                              "Insurance Deleted", context);
+                                        } else {
+                                          showSnackBar(
+                                              "Error Insurance Document",
                                               context);
                                         }
                                       },

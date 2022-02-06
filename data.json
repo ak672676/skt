@@ -31,10 +31,24 @@
   "Tax":{
     "uid": "a1Xd0000001IYXKEAO",
     "vid":"kuh ukhuih",
+    "vehicleNumber":"a1Vd0000001IYXKEA4",
     "startDate" : "2018-01-01",
     "endDate" : "2018-01-01",
     "taxAmount" : "100",
     "gainAmount" : "100",
+    "description" : "Tax",
+    "onDate":"2018-01-01",
+    "isActive":true
+  },
+  "Insurance":{
+    "uid": "a1Xd0000001IYXKEAO",
+    "vid":"kuh ukhuih",
+    "vehicleNumber":"a1Vd0000001IYXKEA4",
+    "startDate" : "2018-01-01",
+    "endDate" : "2018-01-01",
+    "insuranceAmount" : "100",
+    "gainAmount" : "100",
+    "valuation":"77979",
     "description" : "Tax",
     "onDate":"2018-01-01",
     "isActive":true

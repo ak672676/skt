@@ -51,6 +51,7 @@ class _TaxNotificationState extends State<TaxNotification> {
                         .add(Duration(days: int.parse(searchDays)))
                         .millisecondsSinceEpoch,
                   )
+                  .where("isActive", isEqualTo: true)
                   .orderBy("endDate", descending: false)
                   .snapshots(),
               builder: (context, snapshot) {

@@ -70,7 +70,7 @@ class NavigationDrawerWidget extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.notifications, color: Colors.white70),
             title: const Text(
-              'Tax Notification',
+              'Tax Expiry',
               style: TextStyle(fontSize: 24.0, color: Colors.white70),
             ),
             onTap: () {
@@ -86,7 +86,7 @@ class NavigationDrawerWidget extends StatelessWidget {
             leading: const Icon(Icons.document_scanner_outlined,
                 color: Colors.white70),
             title: const Text(
-              'Insurance Notification',
+              'Insurance Expiry',
               style: TextStyle(fontSize: 24.0, color: Colors.white70),
             ),
             onTap: () {

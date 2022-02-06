@@ -51,6 +51,7 @@ class _InsuranceNotificationState extends State<InsuranceNotification> {
                         .add(Duration(days: int.parse(searchDays)))
                         .millisecondsSinceEpoch,
                   )
+                  .where("isActive", isEqualTo: true)
                   .orderBy("endDate", descending: false)
                   .snapshots(),
               builder: (context, snapshot) {
@@ -82,7 +83,7 @@ class _InsuranceNotificationState extends State<InsuranceNotification> {
                         },
                         child: ListTile(
                           leading: const Text(
-                            "INSURANCE",
+                            "INS",
                             style: TextStyle(
                               color: Colors.blue,
                               fontWeight: FontWeight.bold,

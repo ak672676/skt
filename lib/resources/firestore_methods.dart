@@ -22,6 +22,9 @@ class FirestoreMethods {
         'vehicleType': vehicle.vehicleType,
         'ownerName': vehicle.ownerName,
         'ownerContact': vehicle.ownerContact,
+        'gvw': vehicle.gvw,
+        'engineNumber': vehicle.engineNumber,
+        'chassisNumber': vehicle.chassisNumber,
         'addedOn': DateTime.now().millisecondsSinceEpoch,
       });
       res = "success";
@@ -29,6 +32,40 @@ class FirestoreMethods {
       res = e.toString();
     }
 
+    return res;
+  }
+
+  Future<String> updateVehicle(Vehicle vehicle) async {
+    String res = "Some error occoured";
+
+    try {
+      await _firestore.collection("vehicles").doc(vehicle.uid).update({
+        'vehicleNumber': vehicle.vehicleNumber,
+        'vehicleType': vehicle.vehicleType,
+        'ownerName': vehicle.ownerName,
+        'ownerContact': vehicle.ownerContact,
+        'gvw': vehicle.gvw,
+        'engineNumber': vehicle.engineNumber,
+        'chassisNumber': vehicle.chassisNumber,
+      });
+      res = "success";
+    } catch (e) {
+      res = e.toString();
+    }
+
+    return res;
+  }
+
+  Future<String> deleteVehicle(
+    String vid,
+  ) async {
+    String res = "Some error occoured";
+    try {
+      await _firestore.collection("vehicles").doc(vid).delete();
+      res = "success";
+    } catch (e) {
+      res = e.toString();
+    }
     return res;
   }
 

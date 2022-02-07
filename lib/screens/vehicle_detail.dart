@@ -10,12 +10,16 @@ import 'package:skt/model/vehicle.dart';
 import 'package:skt/model/vehicleDocument.dart';
 import 'package:skt/resources/firestore_methods.dart';
 import 'package:skt/resources/pdf_api.dart';
+import 'package:skt/screens/create_vehicle.dart';
+import 'package:skt/screens/home_screen.dart';
 import 'package:skt/screens/pdf_viewer_page.dart';
 import 'package:skt/utils/utils.dart';
 import 'package:skt/widget/add_insurance_buttom_sheet.dart';
 import 'package:skt/widget/add_tax_buttom_sheet.dart';
 import 'package:skt/widget/buttom_sheet.dart';
 import 'package:skt/widget/tax_detail.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter/services.dart';
 
 class VehicleDetail extends StatefulWidget {
   final String? vehicleNumber;
@@ -139,57 +143,276 @@ class _VehicleDetailState extends State<VehicleDetail> {
                 child: Column(
                   children: [
                     const SizedBox(
-                      height: 20,
+                      height: 10,
                     ),
                     Card(
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(4.0),
                         child: Column(
                           children: [
                             Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                const SizedBox(
-                                  width: 20,
-                                ),
-                                const Icon(Icons.directions_car, size: 50),
-                                const SizedBox(
-                                  width: 20,
-                                ),
-                                Text(
-                                  vehicle!.vehicleNumber!,
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 28),
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute<void>(
+                                        builder: (BuildContext context) =>
+                                            CreateVehicle(
+                                          isEditMode: true,
+                                          vehicle: vehicle,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: const Icon(Icons.edit),
                                 ),
                                 const SizedBox(
                                   width: 10,
                                 ),
-                                Text(
-                                  vehicle!.vehicleType!,
-                                  style: const TextStyle(fontSize: 18),
+                                GestureDetector(
+                                  onTap: () async {
+                                    String res = await FirestoreMethods()
+                                        .deleteVehicle(vehicle!.uid!);
+                                    if (res == "success") {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute<void>(
+                                          builder: (BuildContext context) =>
+                                              HomeScreen(),
+                                        ),
+                                      );
+                                    }
+                                  },
+                                  child: Icon(Icons.delete),
                                 ),
                               ],
                             ),
-                            const Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 20),
-                              child: Divider(
-                                thickness: 1,
-                              ),
+                            const SizedBox(
+                              height: 10,
                             ),
                             Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
+                                const Icon(Icons.directions_car, size: 50),
                                 const SizedBox(
-                                  width: 20,
-                                ),
-                                const Icon(Icons.person, size: 40),
-                                const SizedBox(
-                                  width: 20,
+                                  width: 10,
                                 ),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     const Text(
-                                      "Owner",
+                                      "Vehicle Number",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        Clipboard.setData(ClipboardData(
+                                          text: vehicle!.vehicleNumber!,
+                                        )).then((_) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(const SnackBar(
+                                                  content: Text(
+                                                      "Copied to clipboard")));
+                                        });
+                                      },
+                                      child: Text(
+                                        vehicle!.vehicleNumber!,
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 26),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Column(
+                                          children: [
+                                            const Text(
+                                              "Vehicle Type",
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 18,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                            Text(
+                                              vehicle!.vehicleType!,
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 26),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            const Text(
+                                              "GVW",
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 18,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                if (vehicle!.gvw!.isNotEmpty) {
+                                                  Clipboard.setData(
+                                                      ClipboardData(
+                                                    text: vehicle!.gvw!,
+                                                  )).then((_) {
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(
+                                                            const SnackBar(
+                                                                content: Text(
+                                                                    "Copied to clipboard")));
+                                                  });
+                                                }
+                                              },
+                                              child: Text(
+                                                vehicle!.gvw!.isNotEmpty
+                                                    ? vehicle!.gvw!
+                                                    : "----",
+                                                style: const TextStyle(
+                                                    fontWeight: FontWeight.w400,
+                                                    fontSize: 26),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            const Text(
+                                              "Chassis Number",
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 18,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                if (vehicle!.chassisNumber!
+                                                    .isNotEmpty) {
+                                                  Clipboard.setData(
+                                                      ClipboardData(
+                                                    text:
+                                                        vehicle!.chassisNumber!,
+                                                  )).then((_) {
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(
+                                                            const SnackBar(
+                                                                content: Text(
+                                                                    "Copied to clipboard")));
+                                                  });
+                                                }
+                                              },
+                                              child: Text(
+                                                vehicle!.chassisNumber!
+                                                        .isNotEmpty
+                                                    ? vehicle!.chassisNumber!
+                                                    : "----",
+                                                style: const TextStyle(
+                                                    fontWeight: FontWeight.w400,
+                                                    fontSize: 20),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            const Text(
+                                              "Engine Number",
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 18,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                if (vehicle!
+                                                    .engineNumber!.isNotEmpty) {
+                                                  Clipboard.setData(
+                                                      ClipboardData(
+                                                    text:
+                                                        vehicle!.engineNumber!,
+                                                  )).then((_) {
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(
+                                                            const SnackBar(
+                                                                content: Text(
+                                                                    "Copied to clipboard")));
+                                                  });
+                                                }
+                                              },
+                                              child: Text(
+                                                vehicle!.engineNumber!
+                                                        .isNotEmpty
+                                                    ? vehicle!.engineNumber!
+                                                    : "----",
+                                                style: const TextStyle(
+                                                    fontWeight: FontWeight.w400,
+                                                    fontSize: 20),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                const Icon(Icons.person, size: 50),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      "Owner Name",
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 18,
@@ -200,48 +423,36 @@ class _VehicleDetailState extends State<VehicleDetail> {
                                       vehicle!.ownerName!,
                                       style: const TextStyle(
                                           fontWeight: FontWeight.w400,
-                                          fontSize: 28),
+                                          fontSize: 26),
                                     ),
-                                  ],
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            Row(
-                              children: [
-                                const SizedBox(
-                                  width: 20,
-                                ),
-                                const Icon(Icons.phone, size: 40),
-                                const SizedBox(
-                                  width: 20,
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
                                     const Text(
-                                      "Contact Number",
+                                      "Owner Contact",
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 18,
                                         color: Colors.grey,
                                       ),
                                     ),
-                                    Text(
-                                      vehicle!.ownerContact!,
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 26),
+                                    GestureDetector(
+                                      onTap: () {
+                                        launch("tel://" +
+                                            "+91" +
+                                            vehicle!.ownerContact!);
+                                      },
+                                      child: Text(
+                                        vehicle!.ownerContact!,
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 26),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
                                     ),
                                   ],
-                                ),
-                                const SizedBox(
-                                  width: 10,
                                 ),
                               ],
                             ),

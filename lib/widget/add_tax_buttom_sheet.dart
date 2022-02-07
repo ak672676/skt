@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import "package:flutter/material.dart";
+import 'package:jiffy/jiffy.dart';
 import 'package:skt/model/tax.dart';
 import 'package:skt/resources/firestore_methods.dart';
 import 'package:skt/utils/utils.dart';
@@ -33,7 +34,9 @@ class _AddTaxButtomSheetState extends State<AddTaxButtomSheet> {
   // String? description;
   String date = "";
   DateTime startDate = DateTime.now();
-  DateTime endDate = DateTime.now();
+  // DateTime endDate = DateTime.now().add(Duration());
+
+  DateTime endDate = Jiffy().add(months: 3).dateTime;
 
   final TextEditingController taxAmount = TextEditingController();
   final TextEditingController gainAmount = TextEditingController();
@@ -75,6 +78,7 @@ class _AddTaxButtomSheetState extends State<AddTaxButtomSheet> {
 
       setState(() {
         startDate = selected!;
+        endDate = Jiffy(startDate).add(months: 3).dateTime;
       });
     }
     if (dateType == "end") {
@@ -244,12 +248,6 @@ class _AddTaxButtomSheetState extends State<AddTaxButtomSheet> {
                                 decoration: const InputDecoration(
                                   labelText: "Tax Amount",
                                 ),
-                                // onChanged: (value) {
-                                //   setState(() {
-                                //     taxAmount = value;
-                                //   });
-                                // },
-
                                 controller: taxAmount,
                               ),
                             ),
@@ -260,11 +258,6 @@ class _AddTaxButtomSheetState extends State<AddTaxButtomSheet> {
                                 decoration: const InputDecoration(
                                   labelText: "Gain Amount",
                                 ),
-                                // onChanged: (value) {
-                                //   setState(() {
-                                //     gainAmount = value;
-                                //   });
-                                // },
                                 controller: gainAmount,
                               ),
                             ),
@@ -277,11 +270,6 @@ class _AddTaxButtomSheetState extends State<AddTaxButtomSheet> {
                                 decoration: const InputDecoration(
                                   labelText: "Description",
                                 ),
-                                // onChanged: (value) {
-                                //   setState(() {
-                                //     description = value;
-                                //   });
-                                // },
                                 controller: description,
                               ),
                             ),

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import "package:flutter/material.dart";
+import 'package:jiffy/jiffy.dart';
 import 'package:skt/model/insurance.dart';
 
 import 'package:skt/resources/firestore_methods.dart';
@@ -31,7 +32,7 @@ class _AddInsuranceButtomSheetState extends State<AddInsuranceButtomSheet> {
 
   String date = "";
   DateTime startDate = DateTime.now();
-  DateTime endDate = DateTime.now();
+  DateTime endDate = Jiffy().add(years: 1).dateTime;
 
   final TextEditingController insuranceAmount = TextEditingController();
   final TextEditingController gainAmount = TextEditingController();
@@ -77,6 +78,7 @@ class _AddInsuranceButtomSheetState extends State<AddInsuranceButtomSheet> {
 
       setState(() {
         startDate = selected!;
+        endDate = Jiffy(startDate).add(years: 1).dateTime;
       });
     }
     if (dateType == "end") {

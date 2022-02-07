@@ -6,6 +6,11 @@ class Vehicle {
   String? vehicleType;
   String? ownerName;
   String? ownerContact;
+
+  String? chassisNumber;
+  String? engineNumber;
+  String? gvw;
+
   DateTime? addedOn;
 
   Vehicle({
@@ -15,6 +20,9 @@ class Vehicle {
     this.ownerName,
     this.ownerContact,
     this.addedOn,
+    this.chassisNumber,
+    this.engineNumber,
+    this.gvw,
   });
 
   Vehicle.fromJson(Map<String, dynamic> json) {
@@ -23,6 +31,10 @@ class Vehicle {
     vehicleType = json['vehicleType'];
     ownerName = json['ownerName'];
     ownerContact = json['ownerContact'];
+    chassisNumber = json['chassisNumber'];
+    engineNumber = json['engineNumber'];
+    gvw = json['gvw'];
+
     addedOn = DateTime.fromMillisecondsSinceEpoch(json["addedOn"]);
   }
 
@@ -34,6 +46,9 @@ class Vehicle {
     data['ownerName'] = this.ownerName;
     data['ownerContact'] = this.ownerContact;
     data['addedOn'] = this.addedOn;
+    data['chassisNumber'] = this.chassisNumber;
+    data['engineNumber'] = this.engineNumber;
+    data['gvw'] = this.gvw;
 
     return data;
   }

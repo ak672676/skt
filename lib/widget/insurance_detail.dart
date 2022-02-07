@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:skt/model/tax.dart';
+import 'package:skt/model/insurance.dart';
 
-class TaxDetail extends StatelessWidget {
-  final Tax tax;
-  const TaxDetail({Key? key, required this.tax}) : super(key: key);
+class InsuranceDetail extends StatelessWidget {
+  final Insurance insurance;
+
+  const InsuranceDetail({Key? key, required this.insurance}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.40,
+      height: MediaQuery.of(context).size.height * 0.50,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
@@ -34,7 +34,7 @@ class TaxDetail extends StatelessWidget {
                         height: 5,
                       ),
                       Text(
-                        "${tax.startDate!.day}-${tax.startDate!.month}-${tax.startDate!.year}    -    ${tax.endDate!.day}-${tax.endDate!.month}-${tax.endDate!.year}",
+                        "${insurance.startDate!.day}-${insurance.startDate!.month}-${insurance.startDate!.year}    -    ${insurance.endDate!.day}-${insurance.endDate!.month}-${insurance.endDate!.year}",
                         style: const TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 16,
@@ -68,9 +68,9 @@ class TaxDetail extends StatelessWidget {
                         children: [
                           Icon(
                             Icons.circle_rounded,
-                            // color: tax.isActive! ? Colors.green : Colors.red,
+                            // color: insurance.isActive! ? Colors.green : Colors.red,
                             color: DateTime.now().millisecondsSinceEpoch <
-                                    tax.endDate!.millisecondsSinceEpoch
+                                    insurance.endDate!.millisecondsSinceEpoch
                                 ? Colors.green
                                 : Colors.red,
                             size: 18,
@@ -80,7 +80,7 @@ class TaxDetail extends StatelessWidget {
                           ),
                           Text(
                             DateTime.now().millisecondsSinceEpoch <
-                                    tax.endDate!.millisecondsSinceEpoch
+                                    insurance.endDate!.millisecondsSinceEpoch
                                 ? "Active"
                                 : "Expired",
                             style: const TextStyle(
@@ -111,7 +111,7 @@ class TaxDetail extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
-                        "Tax Amount",
+                        "Insurance Amount",
                         style: TextStyle(
                             fontWeight: FontWeight.w600, fontSize: 20),
                       ),
@@ -119,7 +119,7 @@ class TaxDetail extends StatelessWidget {
                         height: 5,
                       ),
                       Text(
-                        tax.taxAmount.toString(),
+                        insurance.insuranceAmount.toString(),
                         style: const TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 16,
@@ -150,12 +150,48 @@ class TaxDetail extends StatelessWidget {
                         height: 5,
                       ),
                       Text(
-                        tax.gainAmount.toString(),
+                        insurance.gainAmount.toString(),
                         style: const TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 16,
                           color: Colors.grey,
                         ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Card(
+                elevation: 4,
+                margin: const EdgeInsets.all(8),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "Valuation Amount",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600, fontSize: 20),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        insurance.valuation.toString(),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                          color: Colors.grey,
+                        ),
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ],
                   ),
@@ -185,7 +221,7 @@ class TaxDetail extends StatelessWidget {
                         height: 5,
                       ),
                       Text(
-                        tax.description!,
+                        insurance.description!,
                         style: const TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 16,

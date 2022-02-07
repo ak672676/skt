@@ -17,6 +17,7 @@ import 'package:skt/utils/utils.dart';
 import 'package:skt/widget/add_insurance_buttom_sheet.dart';
 import 'package:skt/widget/add_tax_buttom_sheet.dart';
 import 'package:skt/widget/buttom_sheet.dart';
+import 'package:skt/widget/insurance_detail.dart';
 import 'package:skt/widget/tax_detail.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/services.dart';
@@ -235,6 +236,8 @@ class _VehicleDetailState extends State<VehicleDetail> {
                                     Row(
                                       children: [
                                         Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             const Text(
                                               "Vehicle Type",
@@ -400,6 +403,7 @@ class _VehicleDetailState extends State<VehicleDetail> {
                             const SizedBox(
                               height: 10,
                             ),
+                            Divider(),
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.start,
@@ -807,15 +811,17 @@ class _VehicleDetailState extends State<VehicleDetail> {
                                 ),
                                 title: GestureDetector(
                                   onTap: () {
-                                    // showModalBottomSheet(
-                                    //   context: context,
-                                    //   builder: (BuildContext context) {
-                                    //     return Padding(
-                                    //       padding: const EdgeInsets.all(8.0),
-                                    //       child: TaxDetail(tax: tax),
-                                    //     );
-                                    //   },
-                                    // );
+                                    showModalBottomSheet(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: InsuranceDetail(
+                                            insurance: insurance,
+                                          ),
+                                        );
+                                      },
+                                    );
                                   },
                                   child: Text(
                                     "${insurance.startDate!.day}-${insurance.startDate!.month}-${insurance.startDate!.year}    -    ${insurance.endDate!.day}-${insurance.endDate!.month}-${insurance.endDate!.year}",
@@ -871,6 +877,9 @@ class _VehicleDetailState extends State<VehicleDetail> {
                           ),
                         );
                       },
+                    ),
+                    const SizedBox(
+                      height: 10,
                     ),
                   ],
                 ),
